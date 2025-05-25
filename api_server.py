@@ -17,6 +17,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+class UpdateIsCheckedRequest(BaseModel):
+    todo_id: int
+    ischecked: bool
 
 class MailRequest(BaseModel):
     email: str
@@ -51,6 +54,19 @@ def fetch_mail_endpoint(req: MailRequest):
         if result is None:
             raise HTTPException(status_code=404, detail="No email found")
         return {"content": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/todo/update-ischecked/")
+def update_ischecked(req: UpdateIsCheckedRequest):
+    """
+    更改todo的ischecked状态。
+    参数: todo_id, ischecked
+    返回: 操作结果
+    """
+    try:
+        update_todo(req.todo_id, ischecked=req.ischecked)
+        return {"msg": "ischecked状态已更新"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
