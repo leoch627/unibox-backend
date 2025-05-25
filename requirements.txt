@@ -1,0 +1,9 @@
+imapclient>=2.3.1
+mail-parser>=3.15.0
+beautifulsoup4>=4.12.0
+html2text>=2020.1.16
+openai==0.28
+requests
+fastapi
+pymysql
+uvicorn
